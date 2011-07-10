@@ -400,7 +400,7 @@ d.onsuccess = function (e) {
              e = $e.transaction(tb_name,'readonly')
              e = e.objectStore(tb_name)
              var val = e.openCursor()
-              var len =e.count();
+              //var len =e.count();
 
              var array = {};
 

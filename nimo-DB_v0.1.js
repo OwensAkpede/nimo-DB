@@ -283,10 +283,11 @@ function NimoDB() {
              $e = e.target.result;
              e = $e.transaction(tb_name,'readonly')
              e = e.objectStore(tb_name)
-             var val = e.get(tb_name)
+             var val = e.getAll()
             val.onsuccess = function() {
              var rst = val.result;
-             delete(rst[keyPath]);
+            //  console.log(rst);
+            //  delete(rst[keyPath]);
              $e.close();
              r(rst);
             }

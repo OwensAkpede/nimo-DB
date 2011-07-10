@@ -5,55 +5,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+    htm,body{
+                    margin:0;
+            padding: 0;
+    }
+    *{
+            user-select: none;
+            -webkit-user-select: none;
+    }
+    summary::marker{
+        content:''
+    }
+    details{
+        cursor: default;
+    }
+    ul{
+            list-style: auto;
+    }
+    li{
+            margin: 12px 0;
+    }
+    </style>
 </head>
 <body>
    
-    
+    <ul id=list>
+    </ul>
     <script>
-        //database
+        'use strict';
         var db = new NimoDB();
 
-        var dt = function () {
-            var d = indexedDB;
-            var dl = function (val) {
-                setTimeout(function () {
-                    d.deleteDatabase(val)
-                }, 500);
-            }
-            var nm =d.webkitGetDatabaseNames();
-            nm.onsuccess = function () {
-                var rst = nm.result;
-                for (var i = 0; i < rst.length; i++) {
-                    var val = rst[i];
-                   dl(val)
-                }
-            }
-        }
-var data;
+        let localStorage =new NimoDB().Sync('localStorage',{typeSensitive:0}) 
 
-data = function () {
-    this.d=8
-}
-        // create
-        db.create('db','tb').then(function(e) {
-            var loc = db.open('db', 'tb');
-            loc.then(function (e) {
-                if (e) {
-                    e.setItem(Date.now(), new Date)
-                    e.getAllItem('d83').then(function (e) {
-                        for (var key in e) {
-                            var elm = e[key]
-                            console.log(elm)
-                            if ('function' == typeof elm) {
-                               var elm = elm();
-                            }
-                            document.body.innerHTML += `<b>${key}</b> - <a href=#>${elm}</a><br/><br/>`
-                        }
-                    })
-                }
-            })
-        })
-       // dt()
+        localStorage.setItem(Date.now(),new Date())
+
+        localStorage.getAllItem(function (key,e) {
+                list.innerHTML += `<li><details><summary>${key}</summary>${e}</details></li>`
+                })
+
+        localStorage.ready.then(function (e) {
+              localStorage=e
+                });
     </script>
 </body>
 </html>

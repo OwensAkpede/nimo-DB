@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body>
+    <script>
+                var dt = function () {
+            indexedDB.webkitGetDatabaseNames().onsuccess= function (e) {
+                e=e.target.result;
+                var i=0
+                console.log(e);
+                for (var key in e) {
+                dt.d(e[key],i++)
+                }
+            }
+            return
+            db.deleteAllCreatedDatabase().then(function (d) {
+                console.log(d);
+            })
+        }
+dt.d= function (key,i) {
+    setTimeout(function () {
+        indexedDB.deleteDatabase(key).onsuccess= function (c) {
+                    c=c.target.result
+                        console.log(c);
+                        
+                    }
+    }, 500*i);
+}
+dt()
+    </script>
+    </body>
+</html>
