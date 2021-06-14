@@ -2,6 +2,6 @@
 `Aimed to ease JavaScript indexedDB API`
 
 ```js
-var db = new nimoDB();
+var db = new NimoDB();
 console.log(db);
 ```
