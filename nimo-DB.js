@@ -1,7 +1,7 @@
 
 
-function nimoDB() {
-  var attr = nimoDB;
+function NimoDB() {
+  var attr = NimoDB;
   attr.database = [];
   attr.indexedDB = indexedDB
   var keyPath = "NIMO_DB_ID"
