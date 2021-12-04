@@ -1,135 +1,59 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <script src="https://owens94819.github.io/src/nimo-DB.js" type="text/javascript" charset="utf-8"></script>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="" content="">
-    <style type="text/css" media="all">
-file{
-  display: flex;
-  flex-direction: column;
-  height: 50vh;
-  overflow: auto;
-  
-}
-li{
-  background: #ddd;
- margin: 1px;
-  padding: 5px 10px;
-}
-    </style>
-    <title></title>
-  </head>
-  <body>
-   <input type="file"  id=ipt hidden>
+<html lang="en">
+<head>
+    <script src="nimo-DB.js" type="text/javascript" charset="utf-8"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
    
-   <button id=upl onclick="ipt.click()">Backup a file</button>
-   <button id=upl onclick="clearAll()">Clear all</button>
-   
-   <h2>Backed up files:</h2>
-   <file id=file>
-     <pre id=pre>Nothing here</pre>
-   </file>
+    
+    <script>
+        //database
+        var db = new NimoDB();
 
-    <script type="text/javascript" charset="utf-8">
-      var db = new NimoDB();
-      db.devMode = false;
-      
-      var d = ['back up','files']
-      var log = console.log;
+        var dt = function () {
+            var d = indexedDB;
+            var dl = function (val) {
+                setTimeout(function () {
+                    d.deleteDatabase(val)
+                }, 500);
+            }
+            var nm =d.webkitGetDatabaseNames();
+            nm.onsuccess = function () {
+                var rst = nm.result;
+                for (var i = 0; i < rst.length; i++) {
+                    var val = rst[i];
+                   dl(val)
+                }
+            }
+        }
+var data;
 
-      var res = (e)=>{
-        var x = file.children.length;
-        if(x<2||e){
-          pre.hidden = false;
-          var tx = pre.outerHTML;
-          file.innerHTML = tx;
-        }
-      }
-      
-      var clearAll = async ()=>{
-        var op = await db.open(d[0],d[1])
-        op.clear();
-        var a = await op.getAllItem()
-        res(true);
-      }
-      
-      var clear = async (e,z) => {
-        var op = await db.open(d[0],d[1])
-        op = await op.removeItem(e)
-     
-        file.removeChild(z)
-        res()
-      }
-      
-      var download = (e) => {
-        var url;
-        var elm = document.createElement('a')
-         url = e;
-         url = URL.createObjectURL(url);
-      //  location.href = url
-        elm.download = e.name;
-        elm.href = url;
-        pre.appendChild(elm)
-        elm.click()
-        elm.remove()
-      }
-      
-      var clicked = (e) => {
-       var x = e.isTrusted?e.pageX:500;
-       var elm = e.target;
-       e = elm.file;
-       if(x<26){
-         clear(e.itemName,elm);
-       }else{
-         download(e.data,elm)
-       }
-      }
-      
-      var toElem = (e)=>{
-        pre.hidden = true;
-        var elm = document.createElement('li')
-        elm.innerHTML = e.data.name;
-        elm.file = e;
-        elm.onclick = clicked;
-        file.appendChild(elm)
-        file.scrollTop = file.scrollHeight
-      };
-      
-      
-      var render = async ()=> {
-        var op = await db.open(d[0],d[1]);
-        op = await op.getAllItem();
-     //   log(op)
-        for(var key in op){
-          var obj = op[key]
-          obj.itemName = key;
-           toElem(obj)
-        }
-      };
-      
-      
-      ipt.onchange = async (e)=> {
-        var obj = {}
-        e = e.target.files[0]
-        ipt.value = "";
-        obj.data = e;
-          var loc = await db.open(d[0],d[1]);
-          var nm = obj.data.name;
-          nm = nm+Date.now()
-          loc = await loc.setItem(nm,obj)
-          obj = loc;
-          obj.itemName = nm;
-          log(obj)
-          toElem(obj)
-      }
-       
-     
-      (async function() {
-       await db.create(d[0],d[1])
-        render();
-      })();
-      
+data = function () {
+    this.d=8
+}
+        // create
+        db.create('db','tb').then(function(e) {
+            var loc = db.open('db', 'tb');
+            loc.then(function (e) {
+                if (e) {
+                    e.setItem(Date.now(), new Date)
+                    e.getAllItem('d83').then(function (e) {
+                        for (var key in e) {
+                            var elm = e[key]
+                            console.log(elm)
+                            if ('function' == typeof elm) {
+                               var elm = elm();
+                            }
+                            document.body.innerHTML += `<b>${key}</b> - <a href=#>${elm}</a><br/><br/>`
+                        }
+                    })
+                }
+            })
+        })
+       // dt()
     </script>
-  </body>
+</body>
 </html>

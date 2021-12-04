@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="nimo-DB.js" type="text/javascript" charset="utf-8"></script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="" content="">
+    <style type="text/css" media="all">
+file{
+  display: flex;
+  flex-direction: column;
+  height: 50vh;
+  overflow: auto;
+  
+}
+li{
+  background: #ddd;
+ margin: 1px;
+  padding: 5px 10px;
+  list-style: none;
+}
+li:before{
+  content:"✖";
+  color: red;
+  box-shadow: 0 0 30px red;
+  padding: 5px;
+}
+    </style>
+    <title></title>
+  </head>
+  <body>
+   <input type="file"  id=ipt hidden>
+   
+   <button id=upl onclick="ipt.click()">Backup a file</button>
+   <button id=upl onclick="clearAll()">Clear all</button>
+   
+   <h2>Backed up files:</h2>
+   <file id=file>
+     <pre id=pre>Nothing here</pre>
+   </file>
+<script src="db.js"></script>
+    <script type="text/javascript" charset="utf-8">
+      // var db = new NimoDB();
+      // db.devMode = false;
+      
+      // var d = ['back up','files']
+      // var log = console.log;
+
+      // var res = (e)=>{
+      //   var x = file.children.length;
+      //   if(x<2||e){
+      //     pre.hidden = false;
+      //     var tx = pre.outerHTML;
+      //     file.innerHTML = tx;
+      //   }
+      // }
+      
+      // var clearAll = function (){
+      //   var op = await db.open(d[0],d[1])
+      //   op.clear();
+      //   var a = await op.clear()
+      //   res(true);
+      // }
+      
+      // var clear = async (e,z) => {
+      //   var op = await db.open(d[0],d[1])
+        
+      //   op = await op.removeItem(e)
+      //   file.removeChild(z)
+      //   res()
+      // }
+      
+      // var download = (e) => {
+      //   var url;
+      //   var elm = document.createElement('a')
+      //    url = e;
+      //    url = URL.createObjectURL(url);
+      //   location.href = url
+      //   elm.download = e.name;
+      //   elm.href = url;
+      //   pre.appendChild(elm)
+      //   elm.click()
+      //   elm.remove()
+      // }
+      
+      // var clicked = (e) => {
+      //  var x = e.isTrusted?e.pageX:500;
+      //  var elm = e.target;
+      //  e = elm.file;
+      //  if(x<70){
+      //    clear(e.itemName,elm);
+      //  }else{
+      //    download(e.data,elm)
+      //  }
+      // }
+      
+      // var toElem = function (e)=>{
+      //   if('string'===typeof e){
+      //     var loc = db.open(d[0],d[1])
+      //    loc.then(function (e) {
+      //      loc.getItem(e);
+      //    })
+      //   }
+      //   pre.hidden = true;
+      //   var elm = document.createElement('li')
+      //   elm.innerHTML = e.data.name;
+      //   elm.file = e;
+      //   elm.onclick = clicked;
+      //   file.appendChild(elm)
+      //   file.scrollTop = file.scrollHeight
+      // };
+      
+      
+      // var render = async ()=> {
+      //   var op = await db.open(d[0],d[1]);
+      //   op = await op.getAllItem();
+      //   var num = -1;
+      //   for(var key in op){
+      //     num++
+      //     var obj = op[key]
+      //      delay(obj,num)
+      //   }
+      // };
+      
+      
+      // ipt.onchange = async (e)=> {
+      //   var obj = {}
+      //   e = e.target.files[0]
+      //   ipt.value = "";
+      //   obj.data = e;
+      //   var loc = await db.open(d[0],d[1]);
+
+      //     var nm = obj.data.name;
+      //     nm = nm+Date.now()
+      //     obj.itemName = nm;
+      //     await loc.setItem(nm,obj)
+      //     toElem(nm)
+      // }
+       
+      // var delay = (obj,e)=> {
+      //  return new Promise((r)=>{
+      //   if(!e) {
+      //    toElem(obj);
+      //    r();
+      //   }else{
+      //   setTimeout(function() {
+      //     toElem(obj);
+      //     r()
+      //   }, 500);
+      //   }
+      // })
+      // }
+      
+      // (async function() {
+      //   var stat = 1;
+      //  if(stat){
+      //  await db.create(d[0],d[1])
+      //   render();    
+      //  }
+      // })();
+      
+    </script>
+  </body>
+</html>
