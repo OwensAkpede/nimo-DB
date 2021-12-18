@@ -280,10 +280,7 @@
           return e;
         };
       push.resolve = function () {
-        // for (var i = db.Syncdata.length - 1; i > 0; i--) {
-        //   push(db.Syncdata[i])
-        // }
-        for (var i = 0; db.Syncdata.length > i; i++) {
+        for (var i = db.Syncdata.length - 1; i > 0; i--) {
           push(db.Syncdata[i])
         }
         db.Syncdata = []
@@ -989,22 +986,12 @@
       var tb_name = arguments[1]
       var _this = this;
 
-      // window.db=name
-      // window.tb=tb_name
-      // db.onclose =function () {
-      //   console.log(db)
-      // }
-      
-      //transaction(tb_name, 'readwrite')
-     // console.log(name)
-      
-     
-     if (name instanceof IDBDatabase) {
+      if (name instanceof IDBDatabase) {
         if (!tb_name) {
           NimoDB.__proto__.console.error('incorrect table name - <Row>')
         }
         var attr = NIMO_DB_ID.short(name);
-        if (!attr.cloned) {
+        if (attr.cloned) {
           name.close()
         }
         name = name.realname || name.name
@@ -1075,6 +1062,7 @@
       }
 
 
+
       this.addItem = function (key, value) {
         //  key = String(key)
         var argument = arguments
@@ -1089,6 +1077,7 @@
             // e.oncomplete = function () {
             //   // r('done')
             // }
+
             e = e.target.result.transaction(tb_name, 'readwrite').objectStore(tb_name).add(obj)
             e.onerror = function (e) {
               close(e)
@@ -1446,7 +1435,7 @@
             r = function (e) {
               if (e.readyState === 'done' && e.result) {
                 e.result.realname = argument[0];
-                // e.result.realname = argument[0];
+                e.result.realname = argument[0];
                 obj.__proto__.result = e.result
                 // console.log(e.result)
               }
@@ -1466,6 +1455,7 @@
           var foo = function (e) {
             e.result.onerror = function () {
               e = arguments[0].target
+              // console.log(e);
             }
             r(e)
           }
@@ -1482,24 +1472,15 @@
           }
 
           e.onupgradeneeded = function (e) {
-            // console.log(NIMO_DB_ID.row)
-            if (NIMO_DB_ID.row&&false) {
             new NIMO_DB_ID().init(e.target.result.realname || e.target.result.name).then(function () {
-              console.log(2)
-              foo(e.target)
-              if (obj.onupgradeneeded) {
-                obj.onupgradeneeded(e)
-              }
+
             })
-          }else{
-            new NIMO_DB_ID().init(e.target.result.realname || e.target.result.name).then(function () {/** **/})
+            r.success = true
             foo(e.target)
             if (obj.onupgradeneeded) {
               obj.onupgradeneeded(e)
             }
           }
-          r.success = true;
-        }
 
           e.onerror = function (e) {
             r(e.target)
@@ -1577,39 +1558,32 @@
     var has = function (e, name) {
       return name in e;
     }
-
     // new NIMO_DB_ID().init(fx.name)
     // new NIMO_DB_ID().remove()
-    // init(fx.name)
-
+    //init(fx.name)
     var NIMO_DB_ID = NimoDB.__proto__.NIMO_DB_ID
-    
-    if(!NIMO_DB_ID.store){
-      NIMO_DB_ID.store = attr.indexedDB.open(_name)
-      NIMO_DB_ID.store.onsuccess = function (e) {
-        // console.log(e)
+    NIMO_DB_ID.store = NIMO_DB_ID.store || attr.indexedDB.open(_name)
+
+
+
+    NIMO_DB_ID.store.onsuccess = function (e) {
       if (NIMO_DB_ID.store.init) {
         return
-      }      
+      }
       NIMO_DB_ID.push.resolve(e, def, attr)
     }
 
     NIMO_DB_ID.store.onupgradeneeded = function (e, _r) {
-      // console.log([])
       if (e.target.result.version === 1) {
-        close(
-          e.target.result.createObjectStore(def, {
+        close(e.target.result.createObjectStore(def, {
           keyPath: keyPath
-        })
-        ,true)        
+        }),true)
         if (_r) {
           _r()
         }
         // NIMO_DB_ID.push.resolve(e,def,attr)
       }
-
     }
-}
 
 
     // this.openDatabase(SynNAME);
@@ -1639,10 +1613,6 @@
     var add = NimoDB.__proto__.NIMO_DB_ID.set
     this.init = function (name) {
       return new Promise(function (r, j) {
-        // if(!NimoDB.__proto__.NIMO_DB_ID.row){
-        //  r('done')
-        //  r=new Function();
-        // }
         add.push(['addItem', [name, {
           name: name,
           info: NimoDB.__proto__.NIMO_DB_ID.time()
@@ -1682,15 +1652,10 @@
     e.target.result.ice = {}
     //e.target.result.close()
     //e.target.result
-
-
     NimoDB.__proto__.NIMO_DB_ID.row = NimoDB.__proto__.NIMO_DB_ID.row || new attr.Row(e.target.result, def, attr)
-    // for (var i = NimoDB.__proto__.NIMO_DB_ID.set.length - 1; i > 0; i--) {
-    //   NimoDB.__proto__.NIMO_DB_ID.push(NimoDB.__proto__.NIMO_DB_ID.set[i]);
-    // }
-     for (var i = 0; NimoDB.__proto__.NIMO_DB_ID.set.length > i; i++) {
-       NimoDB.__proto__.NIMO_DB_ID.push(NimoDB.__proto__.NIMO_DB_ID.set[i]);
-     }
+    for (var i = NimoDB.__proto__.NIMO_DB_ID.set.length - 1; i > 0; i--) {
+      NimoDB.__proto__.NIMO_DB_ID.push(NimoDB.__proto__.NIMO_DB_ID.set[i]);
+    }
     NimoDB.__proto__.NIMO_DB_ID.set = []
     NimoDB.__proto__.NIMO_DB_ID.set.push = NimoDB.__proto__.NIMO_DB_ID.push;
   }
@@ -1753,24 +1718,21 @@
     return obj;
   }
 
-  var close = function (e, d) {
-        //  var _e =e
-          // if (e instanceof IDBRequest === false && e instanceof IDBObjectStore === false && e instanceof Object) {
-            if (e instanceof Event) {
-              e = e.target
-            }
-
+        var close = function (e, d) {
+          if (e instanceof IDBRequest === false) {
+            e = e.target
+          }
+          
           if (e.transaction.commit) {
-             e.transaction.commit();
+            e.transaction.commit();
           }else{
             // the following code should not be uncommented
-            /*e.transaction.abort()*/
+            //e.transaction.abort()
           }
           if (d) {
             return
           }
-          if ('object' === typeof e.transaction.db.ice) {
-          } else {
+          if ('object' === typeof e.transaction.db.ice) {} else {
             e.transaction.db.close();
           }
         }
