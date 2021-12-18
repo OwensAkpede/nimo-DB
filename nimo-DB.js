@@ -1,48 +1,8 @@
 (function () {
   function NimoDB() {
-    Object.observe = Object.observe || function (obj, f) {
-
-
-    }
-    Object.assign = Object.assign || function (p, c) {
-      c.__proto__ = p
-      // for (var d in c) {
-      //   p[d] = c[d]
-      // }
-      return c
-    }
-
-    function parsekey(key) {
-      if ('number' === typeof key || key instanceof Number) {
-        key = `number:${Number(key)}`;
-      } else {
-        key = `string:${String(key)}`;
-      }
-      return key;
-    }
-
-    parsekey.decode = function (key) {
-      var type = key.substring(0, key.indexOf(':'))
-      type = type.charAt(0).toUpperCase() + type.substring(1);
-      type = type.trim() || 'String'
-      key = key.substring(key.indexOf(':') + 1)
-      if (type in Window === false) {
-        type = 'String'
-      }
-      key = window[type](key);
-      return key;
-    }
     //var attr = this.varructor;
-    var attr = NimoDB.__proto__.database,
-      SynID = 'Sync storage',
-      done = "done",
-      SynNAME = location.href,
-      keyPath = NimoDB.__proto__.NIMO_DB_ID.keyPath,
-      def = 'records',
-      _name = keyPath,
-      tmp = NimoDB.__proto__.NIMO_DB_ID.tmp,
-      _this = this;
-    this.Sync = function () {
+    var _this = this;
+    this[NIMO_DB_ID.SYNC_KEY] = function () {
       // if ('object' === typeof id) {
       //   config = id
       // }
@@ -123,64 +83,65 @@
       //   db.SyncResolver = r;
       // })
       db.obj = db.obj || {
-        /*config:config*/ }
+        /*config:config*/
+      }
       var obj = db.obj
 
       var p = function (exec, promise, parent, argument, foo) {
-          if (db.config.filter && db.config.filter instanceof Function && 'function' === typeof db.config.filter) {
-            var filter = new db.config.filter(argument)
-            //  filter.value=false;
-            for (var key in filter) {
-              if (key.toLowerCase() === String(argument._name).toLowerCase() || key.toLowerCase() === 'all') {
-                filter = filter[key](argument[0], argument[1], argument[2])
-                break;
-              }
-            }
-            if (!filter) {
-              return
-            }
-            /****/
-            if (filter instanceof Promise) {
-              /***
-               * This feature will be implimented someday
-               *  ***/
-            }
-            /****/
-          }
-          if (foo) {
-            // if () {
-            //   argument[0] = ;
-            // }
-            exec = foo('string' === typeof argument[0] && db.config.typeSensitive ? parsekey(argument[0]) : argument[0], argument[1], argument[2])
-            if (argument[1] && 'object' === typeof argument[1] && argument[1] instanceof Object) {
-              /** weither to freeze object **/
-              //Object.freeze(argument[1])
+        if (db.config.filter && db.config.filter instanceof Function && 'function' === typeof db.config.filter) {
+          var filter = new db.config.filter(argument)
+          //  filter.value=false;
+          for (var key in filter) {
+            if (key.toLowerCase() === String(argument._name).toLowerCase() || key.toLowerCase() === 'all') {
+              filter = filter[key](argument[0], argument[1], argument[2])
+              break;
             }
           }
+          if (!filter) {
+            return
+          }
+          /****/
+          if (filter instanceof Promise) {
+            /***
+             * This feature will be implimented someday
+             *  ***/
+          }
+          /****/
+        }
+        if (foo) {
+          // if () {
+          //   argument[0] = ;
+          // }
+          exec = foo('string' === typeof argument[0] && db.config.typeSensitive ? parsekey(argument[0]) : argument[0], argument[1], argument[2])
+          if (argument[1] && 'object' === typeof argument[1] && argument[1] instanceof Object) {
+            /** weither to freeze object **/
+            //Object.freeze(argument[1])
+          }
+        }
 
-          promise = promise || new Promise(function (r) {
-            db.Syncdata.push({
-              readyMode: parent.__ready__,
-              name: argument[0],
-              value: argument[1],
-              type: argument._name,
-              r: r,
-              exec: parseString(exec)
-            })
-          });
+        promise = promise || new Promise(function (r) {
+          db.Syncdata.push({
+            readyMode: parent.__ready__,
+            name: argument[0],
+            value: argument[1],
+            type: argument._name,
+            r: r,
+            exec: parseString(exec)
+          })
+        });
 
-          if (parent.__proto__.__ready__) {
-            //Object.unfreeze(db.data);
-            if ('string' === typeof exec && exec.eval) {
-              exec = eval(String(exec))
-            }
-            //  db.data.__proto__.length = db.keys.length;
-            // Object.freeze(db.data);
-            // console.log();
-            return exec;
+        if (parent.__proto__.__ready__) {
+          //Object.unfreeze(db.data);
+          if ('string' === typeof exec && exec.eval) {
+            exec = eval(String(exec))
           }
-          return promise;
-        },
+          //  db.data.__proto__.length = db.keys.length;
+          // Object.freeze(db.data);
+          // console.log();
+          return exec;
+        }
+        return promise;
+      },
         push = function (val, c) {
           // if (val instanceof Array) {
           //   if (val.length - 1 >= 0) {
@@ -398,7 +359,7 @@
         var type = arguments.callee.name || 'getAllItem'
         arguments._name = type
         //console.trace(this.__ready__);
-        return p(null /*exec*/ , null, this, arguments, function () {
+        return p(null /*exec*/, null, this, arguments, function () {
           return db.data;
         });
       });
@@ -483,7 +444,9 @@
             return db.keys.length
           });
         }),
-        name: id
+        __proto__: {
+          name: id
+        }
       }
       // obj.__proto__.ready = new Promise(function (r) {
       //   db.SyncResolver = r;
@@ -577,8 +540,8 @@
         delete obj.onready;
       }, 0)&&*/
     };
-    this.Sync.__proto__ = {};
-    this.Sync.__proto__.stable = function (id, db, then, GCollector) {
+    this[NIMO_DB_ID.SYNC_KEY].__proto__ = {};
+    this[NIMO_DB_ID.SYNC_KEY].__proto__.stable = function (id, db, then, GCollector) {
       if (GCollector.SynchronizedTable) {
         attr.Table.init(GCollector.SynchronizedTable).openTable(id).then(function (e) {
           if (e) {
@@ -616,7 +579,7 @@
       }
     }
 
-    this.Sync.__proto__.unstable = function (id, db, then, GCollector) {
+    this[NIMO_DB_ID.SYNC_KEY].__proto__.unstable = function (id, db, then, GCollector) {
       function frh(name, version, tables, e) {
         version += 1;
         if (tables.contains(id)) {
@@ -636,15 +599,15 @@
         } else {
           attr.indexedDB.open(SynNAME, version).onupgradeneeded = function (e, _r) {
             e = e.target.result;
-            for (var i = 0; _this.Sync.STORE_MODE.length > i; i++) {
-              if (i + 1 === _this.Sync.STORE_MODE.length) {
-                e = e.createObjectStore(_this.Sync.STORE_MODE[i], {
+            for (var i = 0; NIMO_DB_ID.STORE_MODE.length > i; i++) {
+              if (i + 1 === NIMO_DB_ID.STORE_MODE.length) {
+                e = e.createObjectStore(NIMO_DB_ID.STORE_MODE[i], {
                   keyPath: keyPath
                 })
               } else {
-                close(e.createObjectStore(_this.Sync.STORE_MODE[i], {
+                close(e.createObjectStore(NIMO_DB_ID.STORE_MODE[i], {
                   keyPath: keyPath
-                }),true)
+                }), true)
                 if (_r) {
                   _r()
                 }
@@ -697,7 +660,7 @@
             obj[keyPath] = SynNAME;
             obj['value'] = {
               name: SynNAME,
-              info: time()
+              info: NIMO_DB_ID.time()
             };
             e.objectStore(def).add(obj).onsuccess = function () {
               try {
@@ -713,7 +676,7 @@
       }
     }
 
-    this.Sync.STORE_MODE = [new String('Sync storage'), new String('Sync storage(2)')]
+    this[NIMO_DB_ID.SYNC_KEY].STORE_MODE = NIMO_DB_ID.STORE_MODE
 
 
     this.createDatabase = function () {
@@ -752,7 +715,7 @@
               // fx = e.target.result;
               e.target.result.close();
               // new NIMO_DB_ID().init(fx.name).then(function () {
-              r(new attr.Table(e.target.result /*.realname||e.target.result.name, e.target.result.version, e.target.result.objectStoreNames*/ ));
+              r(new attr.Table(e.target.result /*.realname||e.target.result.name, e.target.result.version, e.target.result.objectStoreNames*/));
               // })
             }
           }
@@ -886,7 +849,7 @@
                 e.close();
                 return
               } else {
-                close(e.createObjectStore(tb_name, obj),true)
+                close(e.createObjectStore(tb_name, obj), true)
                 if (_r) {
                   _r()
                 }
@@ -994,12 +957,12 @@
       // db.onclose =function () {
       //   console.log(db)
       // }
-      
+
       //transaction(tb_name, 'readwrite')
-     // console.log(name)
-      
-     
-     if (name instanceof IDBDatabase) {
+      // console.log(name)
+
+
+      if (name instanceof IDBDatabase) {
         if (!tb_name) {
           NimoDB.__proto__.console.error('incorrect table name - <Row>')
         }
@@ -1454,7 +1417,7 @@
               resolve(e)
             }
           })).then(function (e) {
-            if (e.readyState === 'pending') {} else {
+            if (e.readyState === 'pending') { } else {
               obj.__proto__.result = e.result
             }
             obj.__proto__.readyState = e.readyState
@@ -1483,23 +1446,23 @@
 
           e.onupgradeneeded = function (e) {
             // console.log(NIMO_DB_ID.row)
-            if (NIMO_DB_ID.row&&false) {
-            new NIMO_DB_ID().init(e.target.result.realname || e.target.result.name).then(function () {
-              console.log(2)
+            if (NIMO_DB_ID.row && false) {
+              new NIMO_DB_ID().init(e.target.result.realname || e.target.result.name).then(function () {
+                console.log(2)
+                foo(e.target)
+                if (obj.onupgradeneeded) {
+                  obj.onupgradeneeded(e)
+                }
+              })
+            } else {
+              new NIMO_DB_ID().init(e.target.result.realname || e.target.result.name).then(function () {/** **/ })
               foo(e.target)
               if (obj.onupgradeneeded) {
                 obj.onupgradeneeded(e)
               }
-            })
-          }else{
-            new NIMO_DB_ID().init(e.target.result.realname || e.target.result.name).then(function () {/** **/})
-            foo(e.target)
-            if (obj.onupgradeneeded) {
-              obj.onupgradeneeded(e)
             }
+            r.success = true;
           }
-          r.success = true;
-        }
 
           e.onerror = function (e) {
             r(e.target)
@@ -1556,60 +1519,42 @@
       }
     }
 
-    var encode = function (x, y) {
-      if (!y) {
-        x = parseString(x);
-      }
-      x = x[1]
-      x = btoa(x)
-      return x;
-    }
-    var decode = NimoDB.__proto__.NIMO_DB_ID.decode
 
-    var parseString = NimoDB.__proto__.NIMO_DB_ID.parseString
-    var nimoOBJ = function (e) {
-      if ('object' == typeof e) {
-        e = e.value;
-      }
-      return e;
-    }
-    var time = NimoDB.__proto__.NIMO_DB_ID.time
-    var has = function (e, name) {
-      return name in e;
-    }
+    // var decode = NIMO_DB_ID.decode
+    // var parseString = NIMO_DB_ID.parseString
+    // var time = NIMO_DB_ID.time
 
     // new NIMO_DB_ID().init(fx.name)
     // new NIMO_DB_ID().remove()
     // init(fx.name)
 
-    var NIMO_DB_ID = NimoDB.__proto__.NIMO_DB_ID
-    
-    if(!NIMO_DB_ID.store){
+
+    if (!NIMO_DB_ID.store) {
       NIMO_DB_ID.store = attr.indexedDB.open(_name)
       NIMO_DB_ID.store.onsuccess = function (e) {
         // console.log(e)
-      if (NIMO_DB_ID.store.init) {
-        return
-      }      
-      NIMO_DB_ID.push.resolve(e, def, attr)
-    }
-
-    NIMO_DB_ID.store.onupgradeneeded = function (e, _r) {
-      // console.log([])
-      if (e.target.result.version === 1) {
-        close(
-          e.target.result.createObjectStore(def, {
-          keyPath: keyPath
-        })
-        ,true)        
-        if (_r) {
-          _r()
+        if (NIMO_DB_ID.store.init) {
+          return
         }
-        // NIMO_DB_ID.push.resolve(e,def,attr)
+        NIMO_DB_ID.push.resolve(e, def, attr)
       }
 
+      NIMO_DB_ID.store.onupgradeneeded = function (e, _r) {
+        // console.log([])
+        if (e.target.result.version === 1) {
+          close(
+            e.target.result.createObjectStore(def, {
+              keyPath: keyPath
+            })
+            , true)
+          if (_r) {
+            _r()
+          }
+          // NIMO_DB_ID.push.resolve(e,def,attr)
+        }
+
+      }
     }
-}
 
 
     // this.openDatabase(SynNAME);
@@ -1634,18 +1579,18 @@
   // NimoDB_syn.syn = NimoDB_syn.syn || new NimoDB();
   // NimoDB_syn.syn.devMode = false;
   NimoDB.__proto__ = {}
-  NimoDB.__proto__.NIMO_DB_ID = NimoDB.__proto__.NIMO_DB_ID || function (name) {
+  var NIMO_DB_ID = /*NIMO_DB_ID ||*/ function (name) {
     var arg = arguments;
-    var add = NimoDB.__proto__.NIMO_DB_ID.set
+    var add = NIMO_DB_ID.set
     this.init = function (name) {
       return new Promise(function (r, j) {
-        // if(!NimoDB.__proto__.NIMO_DB_ID.row){
+        // if(!NIMO_DB_ID.row){
         //  r('done')
         //  r=new Function();
         // }
         add.push(['addItem', [name, {
           name: name,
-          info: NimoDB.__proto__.NIMO_DB_ID.time()
+          info: NIMO_DB_ID.time()
         }], r]);
       })
     }
@@ -1672,32 +1617,32 @@
     }
   }
 
-  NimoDB.__proto__.NIMO_DB_ID.push = function (e) {
-    NimoDB.__proto__.NIMO_DB_ID.row[e[0]](e[1][0], e[1][1], e[1][2]).then(e[2])
+  NIMO_DB_ID.push = function (e) {
+    NIMO_DB_ID.row[e[0]](e[1][0], e[1][1], e[1][2]).then(e[2])
   }
 
-  NimoDB.__proto__.NIMO_DB_ID.push.resolve = function (e, def, attr) {
+  NIMO_DB_ID.push.resolve = function (e, def, attr) {
     attr = attr || NimoDB.database;
-    NimoDB.__proto__.NIMO_DB_ID.store.init = true
+    NIMO_DB_ID.store.init = true
     e.target.result.ice = {}
     //e.target.result.close()
     //e.target.result
 
 
-    NimoDB.__proto__.NIMO_DB_ID.row = NimoDB.__proto__.NIMO_DB_ID.row || new attr.Row(e.target.result, def, attr)
-    // for (var i = NimoDB.__proto__.NIMO_DB_ID.set.length - 1; i > 0; i--) {
-    //   NimoDB.__proto__.NIMO_DB_ID.push(NimoDB.__proto__.NIMO_DB_ID.set[i]);
+    NIMO_DB_ID.row = NIMO_DB_ID.row || new attr.Row(e.target.result, def, attr)
+    // for (var i = NIMO_DB_ID.set.length - 1; i > 0; i--) {
+    //   NIMO_DB_ID.push(NIMO_DB_ID.set[i]);
     // }
-     for (var i = 0; NimoDB.__proto__.NIMO_DB_ID.set.length > i; i++) {
-       NimoDB.__proto__.NIMO_DB_ID.push(NimoDB.__proto__.NIMO_DB_ID.set[i]);
-     }
-    NimoDB.__proto__.NIMO_DB_ID.set = []
-    NimoDB.__proto__.NIMO_DB_ID.set.push = NimoDB.__proto__.NIMO_DB_ID.push;
+    for (var i = 0; NIMO_DB_ID.set.length > i; i++) {
+      NIMO_DB_ID.push(NIMO_DB_ID.set[i]);
+    }
+    NIMO_DB_ID.set = []
+    NIMO_DB_ID.set.push = NIMO_DB_ID.push;
   }
 
 
 
-  NimoDB.__proto__.NIMO_DB_ID.short = function (name, o) {
+  NIMO_DB_ID.short = function (name, o) {
     // o=o||{}
     var _attr;
     if (name instanceof IDBDatabase && name.ice instanceof Object) {
@@ -1725,7 +1670,7 @@
     return _attr || NimoDB.__proto__.database
   }
 
-  NimoDB.__proto__.NIMO_DB_ID.parseString = function (x) {
+  NIMO_DB_ID.parseString = function (x) {
     x = String(x);
     var idx = x.indexOf(':');
     var sub_1 = x.substring(0, idx),
@@ -1733,17 +1678,17 @@
     return [sub_1, sub_2]
   }
 
-  NimoDB.__proto__.NIMO_DB_ID.decode = function (x, y) {
+  NIMO_DB_ID.decode = function (x, y) {
     if (!y) {
-      x = NimoDB.__proto__.NIMO_DB_ID.parseString(x);
+      x = NIMO_DB_ID.parseString(x);
     }
     x = x[1]
     x = atob(x);
-    x = x.substring(0, x.length - NimoDB.__proto__.NIMO_DB_ID.tmp.length);
+    x = x.substring(0, x.length - NIMO_DB_ID.tmp.length);
     return x;
   }
 
-  NimoDB.__proto__.NIMO_DB_ID.time = function () {
+  NIMO_DB_ID.time = function () {
     var obj = {};
     obj.date = [
       new Date().toDateString(),
@@ -1752,34 +1697,85 @@
     obj.exactDate = Date.now();
     return obj;
   }
+  // var NIMO_DB_ID = NIMO_DB_ID
 
+  Object.observe = Object.observe || function (obj, f) {
+
+
+  }
+  Object.assign = Object.assign || function (p, c) {
+    c.__proto__ = p
+    // for (var d in c) {
+    //   p[d] = c[d]
+    // }
+    return c
+  }
+
+  var parsekey = function (key) {
+    if ('number' === typeof key || key instanceof Number) {
+      key = `number:${Number(key)}`;
+    } else {
+      key = `string:${String(key)}`;
+    }
+    return key;
+  }
+  parsekey.decode = function (key) {
+    var type = key.substring(0, key.indexOf(':'))
+    type = type.charAt(0).toUpperCase() + type.substring(1);
+    type = type.trim() || 'String'
+    key = key.substring(key.indexOf(':') + 1)
+    if (type in Window === false) {
+      type = 'String'
+    }
+    key = window[type](key);
+    return key;
+  }
   var close = function (e, d) {
-        //  var _e =e
-          // if (e instanceof IDBRequest === false && e instanceof IDBObjectStore === false && e instanceof Object) {
-            if (e instanceof Event) {
-              e = e.target
-            }
+    //  var _e =e
+    // if (e instanceof IDBRequest === false && e instanceof IDBObjectStore === false && e instanceof Object) {
+    if (e instanceof Event) {
+      e = e.target
+    }
 
-          if (e.transaction.commit) {
-             e.transaction.commit();
-          }else{
-            // the following code should not be uncommented
-            /*e.transaction.abort()*/
-          }
-          if (d) {
-            return
-          }
-          if ('object' === typeof e.transaction.db.ice) {
-          } else {
-            e.transaction.db.close();
-          }
-        }
+    if (e.transaction.commit) {
+      e.transaction.commit();
+    } else {
+      // the following code should not be uncommented
+      /*e.transaction.abort()*/
+    }
+    if (d) {
+      return
+    }
+    if ('object' === typeof e.transaction.db.ice) {
+    } else {
+      e.transaction.db.close();
+    }
+  }
 
-  NimoDB.__proto__.NIMO_DB_ID.set = []
-  NimoDB.__proto__.NIMO_DB_ID.tmp = '[hyper database 2003]';
-  NimoDB.__proto__.NIMO_DB_ID.keyPath = "NIMO_DB_ID"
-  // NimoDB.__proto__.NIMO_DB_ID.store = attr.indexedDB.open(NimoDB.__proto__.NIMO_DB_ID.keyPath)
-  // NimoDB.SynchronizedTable
+  var encode = function (x, y) {
+    if (!y) {
+      x = NIMO_DB_ID.parseString(x);
+    }
+    x = x[1]
+    x = btoa(x)
+    return x;
+  }
+
+  var nimoOBJ = function (e) {
+    if ('object' == typeof e) {
+      e = e.value;
+    }
+    return e;
+  }
+  var has = function (e, name) {
+    return name in e;
+  }
+
+  NIMO_DB_ID.set = []
+  NIMO_DB_ID.tmp = '[hyper database 2003]';
+  NIMO_DB_ID.keyPath = "NIMO_DB_ID"
+  NIMO_DB_ID.SYNC_KEY = "Sync"
+  NIMO_DB_ID.STORE_MODE = [new String('Sync storage'), new String('Sync storage(2)')]
 
   // deprecated!!
   //NimoDB.__proto__.store = {}
@@ -1793,8 +1789,21 @@
     }
   };
 
-  NimoDB.__proto__.Sync = new NimoDB().Sync;
-  NimoDB.__proto__.Sync = NimoDB.Sync(NimoDB.Sync.STORE_MODE[0], {
+
+  var attr = NimoDB.__proto__.database,
+    SynID = /*'Sync storage'*/ String(NIMO_DB_ID.STORE_MODE[0]),
+    done = "done",
+    SynNAME = location.href, // 
+    keyPath = NIMO_DB_ID.keyPath,
+    def = 'records',
+    _name = keyPath,
+    tmp = NIMO_DB_ID.tmp
+  // NIMO_DB_ID.store = attr.indexedDB.open(NIMO_DB_ID.keyPath)
+  // NimoDB.SynchronizedTable
+
+
+  // NimoDB.__proto__[NIMO_DB_ID.SYNC_KEY] = new NimoDB()[NIMO_DB_ID.SYNC_KEY];
+  NimoDB.__proto__[NIMO_DB_ID.SYNC_KEY] = new NimoDB()[NIMO_DB_ID.SYNC_KEY](NIMO_DB_ID.STORE_MODE[0], {
     cache: true,
     typeSensitive: false,
     filter: function (argument) {
@@ -1809,7 +1818,7 @@
     }
   });
 
-window.NimoDB = NimoDB
+  window.NimoDB = NimoDB
   //}
   //onbeforeunload =f
   //addEventListener('beforeunload',f)
