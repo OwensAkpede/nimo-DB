@@ -1,6 +1,6 @@
 # Nimo-DB.js
 
-##Quick Example
+Quick Example
 ---------------
 ```js
 var db = new NimoDB() || NimoDB();
@@ -23,9 +23,10 @@ localStorage.ready.then(function (e) {
 ```
 
 
-##Managing Databases
+Managing Databases
 --------------------
-###Create New Database
+>Create New Database
+
 `use the "createDatabase" method to create a new database`
 ```js
 var db = new NimoDB() || NimoDB();
@@ -40,7 +41,8 @@ db.createDatabase('my new Database').then(function (table) {
 
 ```
 
-###Open Existing Database
+>Open Existing
+
 `use the "openCreatedDatabase" method to open an existing database`
 ```js
 var db = new NimoDB() || NimoDB();
@@ -55,7 +57,8 @@ db.openCreatedDatabase('my new Database').then(function (table) {
 
 ```
 
-###Delete Existing Database
+>Delete Existing Database
+
 `use the "deleteCreatedDatabase" method to open an existing database`
 ```js
 var db = new NimoDB() || NimoDB();
@@ -69,12 +72,13 @@ db.deleteCreatedDatabase('my new Database').then(function (done) {
 })
 
 ```
-###`console.log(db)`
+>`console.log(db)`
 
 
-##Managing Tables
+Managing Tables
 -----------------
-###Create New Table
+>Create New Table
+
 `use the "createTable" method to create a new table`
 ```js
 table.createTable('my new table').then(function (items) {
@@ -86,7 +90,8 @@ table.createTable('my new table').then(function (items) {
 })
 ```
 
-###Open Existing Table
+>Open Existing Table
+
 `use the "openTable" method to open an existing table`
 ```js
 table.openTable('my new table').then(function (items) {
@@ -98,7 +103,8 @@ table.openTable('my new table').then(function (items) {
 })
 ```
 
-###Delete Existing Table
+>Delete Existing Table
+
 `use the "deleteTable" method to delete an existing table`
 ```js
 table.deleteTable('my new table').then(function (done) {
@@ -109,12 +115,13 @@ table.deleteTable('my new table').then(function (done) {
     }
 })
 ```
-###`console.log(table)`
+>`console.log(table)`
 
 
-##Managing Items
+Managing Items
 ----------------
-###Set Items
+>Set Items
+
 `use the "setItem" method to set items`
 ```js
 items.setItem('hello','js').then(function (done) {
@@ -123,7 +130,8 @@ items.setItem('hello','js').then(function (done) {
 })
 ```
 
-###Get Items
+>Get Items
+
 `use the "getItem" method to get items`
 ```js
 items.getItem('hello').then(function (value) {
@@ -131,7 +139,8 @@ items.getItem('hello').then(function (value) {
 })
 ```
 
-###Get Length
+>Get Length
+
 `use the "length" method to get the total number of items`
 ```js
 items.length().then(function (value) {
@@ -139,7 +148,8 @@ items.length().then(function (value) {
 })
 ```
 
-###Remove Items
+>Remove Items
+
 `use the "removeItem" method to delete items`
 ```js
 items.removeItem('hello').then(function (done) {
@@ -148,7 +158,8 @@ items.removeItem('hello').then(function (done) {
 })
 ```
 
-###Clear all Items
+>Clear all Items
+
 `use the "clear" method to delete all items`
 ```js
 items.clear().then(function (done) {
@@ -157,7 +168,8 @@ items.clear().then(function (done) {
 })
 ```
 
-###Event Listener
+>Event Listener
+
 `use the "on" method to listen for event`
 ```js
 
@@ -181,6 +193,6 @@ items.on('clear',function () {
     console.log('all items was cleared');
 })
 ```
-###`console.log(items)`
+>`console.log(items)`
 
 
