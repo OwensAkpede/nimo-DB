@@ -170,25 +170,25 @@ items.clear().then(function (done) {
 
 >Event Listener
 
-`use the "on" method to listen for event`
+`use the "on" method to listen for events`
 ```js
 
-// fired everytime the setItem method is called
+// fired everytime the setItem method is successful
 items.on('setitem',function () {
     console.log('an item was added');
 })
 
-// fired everytime the getItem method is called
+// fired everytime the getItem method is successful
 items.on('getitem',function () {
     console.log('an item was reqeusted');
 })
 
-// fired everytime the removeItem method is called
+// fired everytime the removeItem method is successful
 items.on('removeitem',function () {
     console.log('an item was removed');
 })
 
-// fired everytime the clear method is called
+// fired everytime the clear method is successful
 items.on('clear',function () {
     console.log('all items was cleared');
 })
