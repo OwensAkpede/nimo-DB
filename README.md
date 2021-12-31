@@ -41,7 +41,7 @@ db.createDatabase('my new Database').then(function (table) {
 
 ```
 
->Open Existing
+>Open Existing Database
 
 `use the "openCreatedDatabase" method to open an existing database`
 ```js
