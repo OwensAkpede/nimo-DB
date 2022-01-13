@@ -1,7 +1,5 @@
-# Nimo-DB.js
 
-Quick Example
----------------
+# Quick Example
 ```js
 var db = new NimoDB() || NimoDB();
 console.log(db);
@@ -22,7 +20,7 @@ localStorage.ready.then(function (e) {
 }) 
 ```
 
-
+# new NimoDB()
 Managing Databases
 --------------------
 >Create New Database
